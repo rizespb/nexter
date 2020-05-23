@@ -1,0 +1,54 @@
+.features {
+    grid-column: center-start / center-end;
+
+    margin: 15rem 0;
+
+
+    ///// Далее пример того, как можно делать поддержку старых браузеров (progressive enhancement) - если dispay: grid; не поддерживается, тогда будут успользованы правила с float) 
+    // Если браузер поддерживает dipslay: grid; тогда применяем следующие правила. 
+    
+    @supports(display: grid) {
+        display: grid;
+    //grid-template-columns: repeat(3, 1fr); //мы не задаем количество рядов grid-template-rows, так как в данном случае ячейки в неявный (автоматически созданных рядах) будут размещаться так же, как и в автоматических
+
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); // ВАЖНО! Используем AUTO-FIT в качестве альтеринативы MEDIA-QUERIES
+
+    grid-gap: 6rem;
+
+    align-items: start; // По-умолчанию align-items: stretch и ячейки feature растягиваются на всю высоту ряда. Чтобы выровнять содержимое ячеек feature по одному уровню, мы выравниваем эти ячейки по высоте от начала родительского контейнера features
+    }
+
+    
+}
+
+.feature {
+    float: left;
+    width: 33.33333%;
+    margin-bottom: 6rem;
+
+    @supports(display: grid) { //правило float будет проигнорировано автоматически, если браузер поддерживает CSS Grid и элемент рассматривается, как часть CSS GRid
+        width: auto;
+        margin-bottom: 0;
+    }
+
+
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-row-gap: 1.5rem;
+    grid-column-gap: 2.5rem;
+    
+
+    &__icon {
+        fill: $color-primary;
+        width: 4.5rem;
+        height: 4.5rem;
+
+        grid-row: 1 / span 2;
+
+        transform: translateY(-1rem);
+    }
+
+    &__text {
+        font-size: 1.7rem;
+    }
+}

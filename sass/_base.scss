@@ -1,0 +1,76 @@
+// COLOR VARIABLES
+$color-primary: #c69963;
+$color-primary-dark: #B28451;
+
+$color-primary-transparent: rgba(198, 153, 99, .5);
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483A;
+$color-grey-dark-2: #6D5D4B;
+
+// FONT VARIABLES
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+
+// RESPOSIVE PREAKPOINTS
+$bp-largest: 75em;   // 1200px
+$bp-large: 62.5em;   // 1000px
+$bp-medium: 50em;    // 800px
+$bp-small: 37.5em;   // 600px
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%; /* 1rem = 10px / browser default font-size is 16px / 16px*62.5% = 10px / The font-size of <html> is = 1rem */
+
+    @media only screen and (max-width: $bp-largest) {
+        font-size: 50%; // 1rem = 8px 
+    }
+}
+
+body {
+    font-family: $font-primary;
+    color: $color-grey-dark-2;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+.container {
+    display: grid;
+    grid-template-rows: minmax(80vh, min-content) min-content 40vw repeat(3, min-content);
+
+    /* Ниже мы создаем 8 колонок для основной части сайта, так как для большинства сайтов лучше всего подхоят макеты из 8 или 12 колонок. Это будут основные 8 колонок. Далее мы внчале создаем 1 колонку 8rem для вертикального меню. И lобавляем по одной колонке 1fr справа и слева от основных 8 колонок, чтобы выровнять эти колонки по-середине между левым вертикальным меню и правым краем окна 
+    
+    Ширину дополнительных колонок мы задаем с помощью minmax(6rem, 1fr), чтобы эти колонки не сжимались менье 6rem и центральные колонки не прилипали к краям*/
+    grid-template-columns: [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr)  [full-end];
+
+    /// Далее мы для экранов меньше $bp-large (1000px) мы изменяем макет CSS GRID – для того, чтобы переместить меню из правой колонки вверх экрана, мы УБИРАЕМ из макета ПРАВУЮ КОЛОНКУ и ДОБАВЛЯЕМ ОДИН РЯД СВЕРХУ (при этом не забываем добавить @media в стили элемента .sidebar
+
+    @media only screen and (max-width: $bp-large) {
+
+        grid-template-rows: 6rem minmax(80vh, min-content) min-content 40vw repeat(3, min-content);
+
+        grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr)  [full-end];
+    }
+
+
+    //Далее мы используем фукнцию calc, чтобы на экране помещались ровно меню и header
+
+    @media only screen and (max-width: $bp-medium) {
+
+        grid-template-rows: 6rem calc(100vh - 6rem);
+
+    }
+}
